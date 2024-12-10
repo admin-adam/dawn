@@ -307,6 +307,10 @@
       {%- render 'cart-drawer' -%}
     {%- endif -%}
 
+    <!-- Render Announcement Bar First -->
+    {% sections 'announcement-bar' %}
+
+    <!-- Then Render Header -->
     {% sections 'header-group' %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">

@@ -6,6 +6,8 @@
   --focused-base-outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   --focused-base-outline-offset: 0.3rem;
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+  --announcement-bar-height: 50px;
+
 }
 
 .product-card-wrapper .card,
@@ -2142,6 +2144,7 @@ input[type='checkbox'] {
   .announcement-bar--one-announcement .announcement-bar__link {
     width: fit-content;
     margin: auto;
+    margin-bottom: 50px;
   }
 }
 
@@ -2339,22 +2342,20 @@ input[type='checkbox'] {
   z-index: initial;
 }
 
-/* Main Header Layout */
-.header-wrapper {
-  display: block;
-  position: relative;
-  background-color: rgb(var(--color-background));
-}
-
 .header-wrapper--border-bottom {
-  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  border-bottom: none;
 }
 
 .header {
-  display: grid;
-  grid-template-areas: 'left-icons heading icons';
+  display: flex;
+  grid-template-areas: "left-icons heading icons";
   grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
+  justify-content: center;
+  width: 100%; /* Ensure it spans the full width */
+  max-width: none; /* Remove any width constraints */
+  padding-left: 5rem; /* Optional: adjust for spacing */
+  padding-right: 5rem; /* Optional: adjust for spacing */
 }
 
 @media screen and (max-width: 749px) {
@@ -3594,4 +3595,37 @@ details-disclosure > details {
   100% {
     transform: translateX(100%) scaleX(0);
   }
+}
+
+.header--transparent {
+  position: absolute; /* Overlay on hero banner */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10; /* Ensures header is above the banner */
+  background: none; /* Transparent by default */
+}
+
+.header--scrolled {
+  position: fixed;
+  background: white; /* Sticky header background after scrolling */
+  z-index: 10;
+}
+
+.list-menu--inline {
+  display: flex;
+  justify-content: center; /* Centers items horizontally */
+  align-items: center; /* Centers items vertically */
+  flex-wrap: wrap; /* Allows wrapping for smaller screens */
+  width: 100%; /* Ensure it spans the full header width */
+  padding: 0;
+  margin: 0;
+}
+
+.announcement-bar {
+  position: relative;
+  width: 100%;
+  z-index: 1001; /* Highest z-index */
+  height: 50px;
+  /* Add background color, text styles, etc. here */
 }

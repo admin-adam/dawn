@@ -14,15 +14,24 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-{%- endstyle -%}
 
-{%- liquid
-  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
-  assign show_mobile_slider = false
-  if section.settings.swipe_on_mobile and section.blocks.size > columns_mobile_int
-    assign show_mobile_slider = true
-  endif
--%}
+  .card {
+    position: relative; /* Ensure positioning within the card */
+  }
+
+  .card__information {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the element */
+    margin: 0;
+    padding: 10px; /* Adjust padding for spacing */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
+    color: white; /* Text color for contrast */
+    font-size: 0.875rem; /* Adjust text size */
+    text-align: center; /* Center-align text */
+  }
+{%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div class="collection-list-wrapper page-width isolate{% if show_mobile_slider %} page-width-desktop{% endif %}{% if section.settings.title == blank %} no-heading{% endif %}{% if section.settings.show_view_all == false or section.blocks.size > collections.size %} no-mobile-link{% endif %} section-{{ section.id }}-padding">
@@ -34,17 +43,6 @@
         >
           {{ section.settings.title }}
         </h2>
-
-        {%- if section.settings.show_view_all and show_mobile_slider -%}
-          <a
-            href="{{ routes.collections_url }}"
-            id="ViewAll-{{ section.id }}"
-            class="link underlined-link large-up-hide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-            aria-labelledby="ViewAll-{{ section.id }} SectionHeading-{{ section.id }}"
-          >
-            {{- 'sections.collection_list.view_all' | t -}}
-          </a>
-        {%- endif -%}
       </div>
     {%- endunless -%}
 
@@ -72,12 +70,17 @@
           >
             {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
             {%- assign placeholder_image = 'collection-apparel-' | append: placeholder_image_index -%}
-            {% render 'card-collection',
-              card_collection: block.settings.collection,
-              media_aspect_ratio: section.settings.image_ratio,
-              columns: columns,
-              placeholder_image: placeholder_image
-            %}
+            <div class="card">
+              {% render 'card-collection',
+                card_collection: block.settings.collection,
+                media_aspect_ratio: section.settings.image_ratio,
+                columns: columns,
+                placeholder_image: placeholder_image
+              %}
+              <div class="card__information">
+                {{ block.settings.collection.title }}
+              </div>
+            </div>
           </li>
         {%- endfor -%}
       </ul>
@@ -112,6 +115,10 @@
         </div>
       {%- endif -%}
     </slider-component>
+  </div>
+</div>
+
+
 
     {%- if section.settings.show_view_all and section.blocks.size < collections.size -%}
       <div
